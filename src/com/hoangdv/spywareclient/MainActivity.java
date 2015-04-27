@@ -33,6 +33,7 @@ public class MainActivity extends Activity {
 						.getDateTimeInstance().format(
 								Calendar.getInstance().getTime()), "From "
 						+ Devices.getDeviceName());
+				spyTask.setContext(getApplicationContext());
 				spyTask.execute(info);
 			}
 		});

